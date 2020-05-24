@@ -1,11 +1,7 @@
-#define _SCL_SECURE_NO_WARNINGS
-#include <cstdio>
+
 #include <windows.h>
-#include <conio.h>
-#include <ctime>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 #define BUFFER_SIZE 1000
 #define CONSTANT_TIMEOUT 1000
@@ -40,10 +36,10 @@ void Server(char* path)
 	char buffer[STR_BUFFER_SIZE];
 	
 	SemaphoreSet[0] = CreateSemaphore(
-		NULL,// атрибут доступа
-		0,// инициализированное начальное состояние счетчика
-		1,// максимальное количество обращений
-		"READ"// имя объекта
+		NULL,// Р°С‚СЂРёР±СѓС‚ РґРѕСЃС‚СѓРїР°
+		0,// РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРµ РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ СЃС‡РµС‚С‡РёРєР°
+		1,// РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕР±СЂР°С‰РµРЅРёР№
+		"READ"// РёРјСЏ РѕР±СЉРµРєС‚Р°
 	);
 	SemaphoreSet[1] = CreateSemaphore(NULL, 0, 1, "WRITE");
 	SemaphoreSet[2] = CreateSemaphore(NULL, 0, 1, "EXIT");
@@ -51,13 +47,13 @@ void Server(char* path)
 	cout << "Server start working (COM1)\n";
 
 	COM1port = CreateFile(
-		(LPSTR)portName.c_str(),//имя порта
-		GENERIC_READ | GENERIC_WRITE,//для записи и чтения
-		0,//совместный доступ
-		NULL,//атрибуты защиты
-		OPEN_EXISTING,//открыть существующий
+		(LPSTR)portName.c_str(),//РёРјСЏ РїРѕСЂС‚Р°
+		GENERIC_READ | GENERIC_WRITE,//РґР»СЏ Р·Р°РїРёСЃРё Рё С‡С‚РµРЅРёСЏ
+		0,//СЃРѕРІРјРµСЃС‚РЅС‹Р№ РґРѕСЃС‚СѓРї
+		NULL,//Р°С‚СЂРёР±СѓС‚С‹ Р·Р°С‰РёС‚С‹
+		OPEN_EXISTING,//РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№
 		FILE_ATTRIBUTE_NORMAL,
-		NULL//дескриптор шаблона файла
+		NULL//РґРµСЃРєСЂРёРїС‚РѕСЂ С€Р°Р±Р»РѕРЅР° С„Р°Р№Р»Р°
 	);
 
 	if (COM1port == INVALID_HANDLE_VALUE) {
@@ -73,14 +69,14 @@ void Server(char* path)
 	ZeroMemory(&pi, sizeof(pi));
 
 	if (!CreateProcess(
-		(LPSTR)path,//путь для создания нового процесса
-		(LPSTR)" Client",//имя процесса
-		NULL,// атрибуты защиты для нового процесса
-		NULL,//атрибуты защиты для первичного потока
-		FALSE,//флаг наследования
-		CREATE_NEW_CONSOLE,//процесс создаётся в новой консоли 
-		NULL,//переменные окружения
-		NULL,//текущий диск и каталог.
+		(LPSTR)path,//РїСѓС‚СЊ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
+		(LPSTR)" Client",//РёРјСЏ РїСЂРѕС†РµСЃСЃР°
+		NULL,// Р°С‚СЂРёР±СѓС‚С‹ Р·Р°С‰РёС‚С‹ РґР»СЏ РЅРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°
+		NULL,//Р°С‚СЂРёР±СѓС‚С‹ Р·Р°С‰РёС‚С‹ РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РїРѕС‚РѕРєР°
+		FALSE,//С„Р»Р°Рі РЅР°СЃР»РµРґРѕРІР°РЅРёСЏ
+		CREATE_NEW_CONSOLE,//РїСЂРѕС†РµСЃСЃ СЃРѕР·РґР°С‘С‚СЃСЏ РІ РЅРѕРІРѕР№ РєРѕРЅСЃРѕР»Рё 
+		NULL,//РїРµСЂРµРјРµРЅРЅС‹Рµ РѕРєСЂСѓР¶РµРЅРёСЏ
+		NULL,//С‚РµРєСѓС‰РёР№ РґРёСЃРє Рё РєР°С‚Р°Р»РѕРі.
 		&si,
 		&pi
 	)) {
@@ -89,51 +85,51 @@ void Server(char* path)
 		return;
 	}
 
-	SetCommMask(COM1port, EV_RXCHAR);//определение отслеживаемых событий(символ был принят и помещён в буфер ввода данных)
-	SetupComm(COM1port, BUFFER_SIZE, BUFFER_SIZE);//коммуникационные пар-ры(размер буферов ввода/вывода)
+	SetCommMask(COM1port, EV_RXCHAR);//РѕРїСЂРµРґРµР»РµРЅРёРµ РѕС‚СЃР»РµР¶РёРІР°РµРјС‹С… СЃРѕР±С‹С‚РёР№(СЃРёРјРІРѕР» Р±С‹Р» РїСЂРёРЅСЏС‚ Рё РїРѕРјРµС‰С‘РЅ РІ Р±СѓС„РµСЂ РІРІРѕРґР° РґР°РЅРЅС‹С…)
+	SetupComm(COM1port, BUFFER_SIZE, BUFFER_SIZE);//РєРѕРјРјСѓРЅРёРєР°С†РёРѕРЅРЅС‹Рµ РїР°СЂ-СЂС‹(СЂР°Р·РјРµСЂ Р±СѓС„РµСЂРѕРІ РІРІРѕРґР°/РІС‹РІРѕРґР°)
 
-	DCB dcb;//настройки управления
-	memset(&dcb, 0, sizeof(dcb));//выделение памяти под dcb
-	dcb.DCBlength = sizeof(DCB);//длина структуры в байтах
+	DCB dcb;//РЅР°СЃС‚СЂРѕР№РєРё СѓРїСЂР°РІР»РµРЅРёСЏ
+	memset(&dcb, 0, sizeof(dcb));//РІС‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё РїРѕРґ dcb
+	dcb.DCBlength = sizeof(DCB);//РґР»РёРЅР° СЃС‚СЂСѓРєС‚СѓСЂС‹ РІ Р±Р°Р№С‚Р°С…
 	if (!GetCommState(COM1port, &dcb)) {
 		CloseHandle(COM1port);
 		cout << "Error during DCB initialize" << endl;
 		return;
 	}
 
-	dcb.BaudRate = CBR_14400;//скорость передачи данных в бодах
-	dcb.fBinary = TRUE;//двоичный режим
-	dcb.fParity = FALSE;//режим чётности
-	dcb.fOutxCtsFlow = FALSE;// проверяется сигнал готовности к приему (CTS)
-	dcb.fOutxDsrFlow = FALSE;// проверяется сигнал готовности модема (DSR)
-	dcb.fDtrControl = DTR_CONTROL_DISABLE;//Сигнал  DTR (готовности терминала к передаче данных)
-	dcb.fInX = FALSE;//используется ли XON/XOFF управление потоком данных в ходе приема
-	dcb.fOutX = FALSE;//используется ли XON/XOFF управление потоком данных в ходе передачи	
-	dcb.fNull = FALSE;// при приеме пустые байты не сбрасываются
-	dcb.fRtsControl = RTS_CONTROL_DISABLE;//Сигнал RTS ( готовности к передаче) 
-	dcb.fAbortOnError = TRUE;//драйвер завершает все операции чтения и записи с состоянием ошибки, если происходит ошибка
-	dcb.XonLim = 255;//Минимальное число байтов, которое допустимо в буфере ввода данных
-	dcb.XoffLim = 255;//Максимальное число байтов, допустимое в буфере ввода данных
-	dcb.ByteSize = 8; //число информационных бит в передаваемых и принимаемых байтах.
-	dcb.Parity = NOPARITY;//нет проверки чётности
-	dcb.StopBits = ONESTOPBIT;//1 стоповый бит	
-	dcb.XonChar = 0; // значение XON 
-	dcb.XoffChar = 255;// величина XOFF
+	dcb.BaudRate = CBR_14400;//СЃРєРѕСЂРѕСЃС‚СЊ РїРµСЂРµРґР°С‡Рё РґР°РЅРЅС‹С… РІ Р±РѕРґР°С…
+	dcb.fBinary = TRUE;//РґРІРѕРёС‡РЅС‹Р№ СЂРµР¶РёРј
+	dcb.fParity = FALSE;//СЂРµР¶РёРј С‡С‘С‚РЅРѕСЃС‚Рё
+	dcb.fOutxCtsFlow = FALSE;// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ СЃРёРіРЅР°Р» РіРѕС‚РѕРІРЅРѕСЃС‚Рё Рє РїСЂРёРµРјСѓ (CTS)
+	dcb.fOutxDsrFlow = FALSE;// РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ СЃРёРіРЅР°Р» РіРѕС‚РѕРІРЅРѕСЃС‚Рё РјРѕРґРµРјР° (DSR)
+	dcb.fDtrControl = DTR_CONTROL_DISABLE;//РЎРёРіРЅР°Р»  DTR (РіРѕС‚РѕРІРЅРѕСЃС‚Рё С‚РµСЂРјРёРЅР°Р»Р° Рє РїРµСЂРµРґР°С‡Рµ РґР°РЅРЅС‹С…)
+	dcb.fInX = FALSE;//РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё XON/XOFF СѓРїСЂР°РІР»РµРЅРёРµ РїРѕС‚РѕРєРѕРј РґР°РЅРЅС‹С… РІ С…РѕРґРµ РїСЂРёРµРјР°
+	dcb.fOutX = FALSE;//РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р»Рё XON/XOFF СѓРїСЂР°РІР»РµРЅРёРµ РїРѕС‚РѕРєРѕРј РґР°РЅРЅС‹С… РІ С…РѕРґРµ РїРµСЂРµРґР°С‡Рё	
+	dcb.fNull = FALSE;// РїСЂРё РїСЂРёРµРјРµ РїСѓСЃС‚С‹Рµ Р±Р°Р№С‚С‹ РЅРµ СЃР±СЂР°СЃС‹РІР°СЋС‚СЃСЏ
+	dcb.fRtsControl = RTS_CONTROL_DISABLE;//РЎРёРіРЅР°Р» RTS ( РіРѕС‚РѕРІРЅРѕСЃС‚Рё Рє РїРµСЂРµРґР°С‡Рµ) 
+	dcb.fAbortOnError = TRUE;//РґСЂР°Р№РІРµСЂ Р·Р°РІРµСЂС€Р°РµС‚ РІСЃРµ РѕРїРµСЂР°С†РёРё С‡С‚РµРЅРёСЏ Рё Р·Р°РїРёСЃРё СЃ СЃРѕСЃС‚РѕСЏРЅРёРµРј РѕС€РёР±РєРё, РµСЃР»Рё РїСЂРѕРёСЃС…РѕРґРёС‚ РѕС€РёР±РєР°
+	dcb.XonLim = 255;//РњРёРЅРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ Р±Р°Р№С‚РѕРІ, РєРѕС‚РѕСЂРѕРµ РґРѕРїСѓСЃС‚РёРјРѕ РІ Р±СѓС„РµСЂРµ РІРІРѕРґР° РґР°РЅРЅС‹С…
+	dcb.XoffLim = 255;//РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ С‡РёСЃР»Рѕ Р±Р°Р№С‚РѕРІ, РґРѕРїСѓСЃС‚РёРјРѕРµ РІ Р±СѓС„РµСЂРµ РІРІРѕРґР° РґР°РЅРЅС‹С…
+	dcb.ByteSize = 8; //С‡РёСЃР»Рѕ РёРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹С… Р±РёС‚ РІ РїРµСЂРµРґР°РІР°РµРјС‹С… Рё РїСЂРёРЅРёРјР°РµРјС‹С… Р±Р°Р№С‚Р°С….
+	dcb.Parity = NOPARITY;//РЅРµС‚ РїСЂРѕРІРµСЂРєРё С‡С‘С‚РЅРѕСЃС‚Рё
+	dcb.StopBits = ONESTOPBIT;//1 СЃС‚РѕРїРѕРІС‹Р№ Р±РёС‚	
+	dcb.XonChar = 0; // Р·РЅР°С‡РµРЅРёРµ XON 
+	dcb.XoffChar = 255;// РІРµР»РёС‡РёРЅР° XOFF
 
-	if (!SetCommState(COM1port, &dcb)) {//установка конфигурации
+	if (!SetCommState(COM1port, &dcb)) {//СѓСЃС‚Р°РЅРѕРІРєР° РєРѕРЅС„РёРіСѓСЂР°С†РёРё
 		CloseHandle(COM1port);
 		cout << "Error during setting configuration" << endl;
 		return;
 	}
 
-	COMMTIMEOUTS timeouts;//структура для установки интервалов простоя
-	timeouts.ReadIntervalTimeout = 0xFFFFFFFF;// Mаксимальный интервал простоя между поступлением двух символов по линии связи
-	timeouts.ReadTotalTimeoutMultiplier = 0;//Множитель, используемый, чтобы вычислить полный период времени простоя для операций чтения
-	timeouts.ReadTotalTimeoutConstant = CONSTANT_TIMEOUT;//Константа, используемая, чтобы вычислить полный период времени простоя для операций чтения
-	timeouts.WriteTotalTimeoutMultiplier = 0;// Множитель, используемый, чтобы вычислить полный период времени простоя для операций записи
-	timeouts.WriteTotalTimeoutConstant = CONSTANT_TIMEOUT;// Константа, используемая, чтобы вычислить полный период времени простоя для операций записи
+	COMMTIMEOUTS timeouts;//СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё РёРЅС‚РµСЂРІР°Р»РѕРІ РїСЂРѕСЃС‚РѕСЏ
+	timeouts.ReadIntervalTimeout = 0xFFFFFFFF;// MР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РёРЅС‚РµСЂРІР°Р» РїСЂРѕСЃС‚РѕСЏ РјРµР¶РґСѓ РїРѕСЃС‚СѓРїР»РµРЅРёРµРј РґРІСѓС… СЃРёРјРІРѕР»РѕРІ РїРѕ Р»РёРЅРёРё СЃРІСЏР·Рё
+	timeouts.ReadTotalTimeoutMultiplier = 0;//РњРЅРѕР¶РёС‚РµР»СЊ, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№, С‡С‚РѕР±С‹ РІС‹С‡РёСЃР»РёС‚СЊ РїРѕР»РЅС‹Р№ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РїСЂРѕСЃС‚РѕСЏ РґР»СЏ РѕРїРµСЂР°С†РёР№ С‡С‚РµРЅРёСЏ
+	timeouts.ReadTotalTimeoutConstant = CONSTANT_TIMEOUT;//РљРѕРЅСЃС‚Р°РЅС‚Р°, РёСЃРїРѕР»СЊР·СѓРµРјР°СЏ, С‡С‚РѕР±С‹ РІС‹С‡РёСЃР»РёС‚СЊ РїРѕР»РЅС‹Р№ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РїСЂРѕСЃС‚РѕСЏ РґР»СЏ РѕРїРµСЂР°С†РёР№ С‡С‚РµРЅРёСЏ
+	timeouts.WriteTotalTimeoutMultiplier = 0;// РњРЅРѕР¶РёС‚РµР»СЊ, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№, С‡С‚РѕР±С‹ РІС‹С‡РёСЃР»РёС‚СЊ РїРѕР»РЅС‹Р№ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РїСЂРѕСЃС‚РѕСЏ РґР»СЏ РѕРїРµСЂР°С†РёР№ Р·Р°РїРёСЃРё
+	timeouts.WriteTotalTimeoutConstant = CONSTANT_TIMEOUT;// РљРѕРЅСЃС‚Р°РЅС‚Р°, РёСЃРїРѕР»СЊР·СѓРµРјР°СЏ, С‡С‚РѕР±С‹ РІС‹С‡РёСЃР»РёС‚СЊ РїРѕР»РЅС‹Р№ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РїСЂРѕСЃС‚РѕСЏ РґР»СЏ РѕРїРµСЂР°С†РёР№ Р·Р°РїРёСЃРё
 
-	if (!SetCommTimeouts(COM1port, &timeouts)) {//установка интервалов простоя
+	if (!SetCommTimeouts(COM1port, &timeouts)) {//СѓСЃС‚Р°РЅРѕРІРєР° РёРЅС‚РµСЂРІР°Р»РѕРІ РїСЂРѕСЃС‚РѕСЏ
 		CloseHandle(COM1port);
 		cout << "Error during setting timeouts" << endl;
 		return;
@@ -153,24 +149,24 @@ void Server(char* path)
 			break;
 		}
 
-		ReleaseSemaphore(SemaphoreSet[0], 1, NULL);//освобождение счётчика
+		ReleaseSemaphore(SemaphoreSet[0], 1, NULL);//РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ СЃС‡С‘С‚С‡РёРєР°
 
-		int portionNumber = write_str.size() / STR_BUFFER_SIZE + 1;//столько раз будут передаваться данные из буфера
-		//отправляем 2 порту
+		int portionNumber = write_str.size() / STR_BUFFER_SIZE + 1;//СЃС‚РѕР»СЊРєРѕ СЂР°Р· Р±СѓРґСѓС‚ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РґР°РЅРЅС‹Рµ РёР· Р±СѓС„РµСЂР°
+		//РѕС‚РїСЂР°РІР»СЏРµРј 2 РїРѕСЂС‚Сѓ
 		if (!WriteFile(COM1port, &portionNumber, sizeof(portionNumber), &writtenBytes, NULL)) {
 			cout << "Error during writing number of data portions" << endl;
 			break;
 		}
 
 		int size = write_str.size();
-		//отправляем 2 порту размер введённой строки
+		//РѕС‚РїСЂР°РІР»СЏРµРј 2 РїРѕСЂС‚Сѓ СЂР°Р·РјРµСЂ РІРІРµРґС‘РЅРЅРѕР№ СЃС‚СЂРѕРєРё
 		if (!WriteFile(COM1port, &size, sizeof(size), &writtenBytes, NULL)) {
 			cout << "Error during writing entered string size" << endl;
 			break;
 		}
 
 		for (int i = 0; i < portionNumber; i++) {
-			write_str.copy(buffer, STR_BUFFER_SIZE, i * STR_BUFFER_SIZE);//копируем в буфер части введённой строки
+			write_str.copy(buffer, STR_BUFFER_SIZE, i * STR_BUFFER_SIZE);//РєРѕРїРёСЂСѓРµРј РІ Р±СѓС„РµСЂ С‡Р°СЃС‚Рё РІРІРµРґС‘РЅРЅРѕР№ СЃС‚СЂРѕРєРё
 			if (!WriteFile(COM1port, buffer, STR_BUFFER_SIZE, &writtenBytes, NULL)) {
 				cout << "Error during writing in COM1";
 				CloseHandle(COM1port);
@@ -179,7 +175,7 @@ void Server(char* path)
 			}
 		}
 
-		WaitForSingleObject(SemaphoreSet[1], INFINITE);//ждём сигнала от ридера
+		WaitForSingleObject(SemaphoreSet[1], INFINITE);//Р¶РґС‘Рј СЃРёРіРЅР°Р»Р° РѕС‚ СЂРёРґРµСЂР°
 	}
 
 	CloseHandle(COM1port);
@@ -207,13 +203,13 @@ void Client()
 	cout << "Client start working(COM2)\n";
 
 	COM2port = CreateFile(
-		(LPSTR)portName.c_str(),//имя порта
-		GENERIC_READ | GENERIC_WRITE,//для записи и чтения
-		0,//совместный доступ
-		NULL,//атрибуты защиты
-		OPEN_EXISTING,//открыть существующий
+		(LPSTR)portName.c_str(),//РёРјСЏ РїРѕСЂС‚Р°
+		GENERIC_READ | GENERIC_WRITE,//РґР»СЏ Р·Р°РїРёСЃРё Рё С‡С‚РµРЅРёСЏ
+		0,//СЃРѕРІРјРµСЃС‚РЅС‹Р№ РґРѕСЃС‚СѓРї
+		NULL,//Р°С‚СЂРёР±СѓС‚С‹ Р·Р°С‰РёС‚С‹
+		OPEN_EXISTING,//РѕС‚РєСЂС‹С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№
 		FILE_ATTRIBUTE_NORMAL,
-		NULL//дескриптор шаблона файла
+		NULL//РґРµСЃРєСЂРёРїС‚РѕСЂ С€Р°Р±Р»РѕРЅР° С„Р°Р№Р»Р°
 	);
 
 	while (true)
@@ -222,26 +218,26 @@ void Client()
 		read_str.clear();
 
 		int semaphoreIndex = WaitForMultipleObjects(3, SemaphoreSet, FALSE, INFINITE);
-		if (semaphoreIndex - WAIT_OBJECT_0 == 2)//пользователь ввёл 'q'
+		if (semaphoreIndex - WAIT_OBJECT_0 == 2)//РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІРІС‘Р» 'q'
 		{
 			break;
 		}
 
 		int portionNumber;
-		if (!ReadFile(COM2port, &portionNumber, sizeof(portionNumber), &readBytes, NULL)) {//считываем количество порций для чтения
+		if (!ReadFile(COM2port, &portionNumber, sizeof(portionNumber), &readBytes, NULL)) {//СЃС‡РёС‚С‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕСЂС†РёР№ РґР»СЏ С‡С‚РµРЅРёСЏ
 			cout << "Error during reading number of data portions" << endl;
 			break;
 		}
 
 		int size;
-		if (!ReadFile(COM2port, &size, sizeof(size), &readBytes, NULL)) {//считываем размер введённой строки
+		if (!ReadFile(COM2port, &size, sizeof(size), &readBytes, NULL)) {//СЃС‡РёС‚С‹РІР°РµРј СЂР°Р·РјРµСЂ РІРІРµРґС‘РЅРЅРѕР№ СЃС‚СЂРѕРєРё
 			cout << "Error during reading entered string size" << endl;
 			break;
 		}
 
 		for (int i = 0; i < portionNumber; i++)
 		{
-			if (!ReadFile(COM2port, buffer, STR_BUFFER_SIZE, &readBytes, NULL)) {//считываем в буфер часть введённой строки
+			if (!ReadFile(COM2port, buffer, STR_BUFFER_SIZE, &readBytes, NULL)) {//СЃС‡РёС‚С‹РІР°РµРј РІ Р±СѓС„РµСЂ С‡Р°СЃС‚СЊ РІРІРµРґС‘РЅРЅРѕР№ СЃС‚СЂРѕРєРё
 				cout << "Error during reading from COM2" << endl;
 				CloseHandle(COM2port);
 				CloseHandle(SemaphoreSet[0]);
@@ -249,11 +245,11 @@ void Client()
 				return;
 			}
 
-			read_str.append(buffer, STR_BUFFER_SIZE);//расширяет строку
+			read_str.append(buffer, STR_BUFFER_SIZE);//СЂР°СЃС€РёСЂСЏРµС‚ СЃС‚СЂРѕРєСѓ
 		}
 
 
-		read_str.resize(size);//действительный размер стоки
+		read_str.resize(size);//РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ СЃС‚РѕРєРё
 
 		cout << "COM2 get: " << endl;
 		for (int i = 0; i < size; i++)
@@ -262,7 +258,7 @@ void Client()
 		}
 		cout << endl;
 		
-		ReleaseSemaphore(SemaphoreSet[1], 1, NULL);//освобождение счётчика, чтение завершено
+		ReleaseSemaphore(SemaphoreSet[1], 1, NULL);//РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ СЃС‡С‘С‚С‡РёРєР°, С‡С‚РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ
 	}
 
 	CloseHandle(COM2port);
